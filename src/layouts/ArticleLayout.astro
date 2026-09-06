@@ -1,0 +1,17 @@
+---
+import BaseLayout from './BaseLayout.astro';
+
+const { frontmatter } = Astro.props;
+const { title, description, date, tags = [] } = frontmatter;
+const formattedDate = date ? new Intl.DateTimeFormat('en-US', { year: 'numeric', month: 'long', day: 'numeric' }).format(new Date(date)) : '';
+---
+<BaseLayout title={title} description={description}>
+  <article class="container prose">
+    <div class="eyebrow">Writing</div>
+    <h1>{title}</h1>
+    {description && <p class="lede">{description}</p>}
+    {formattedDate && <p class="meta"><time datetime={date}>{formattedDate}</time></p>}
+    {tags.length > 0 && <div class="pill-list">{tags.map((tag: string) => <span class="pill">{tag}</span>)}</div>}
+    <slot />
+  </article>
+</BaseLayout>
