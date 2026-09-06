@@ -1,0 +1,63 @@
+---
+import '../styles/global.css';
+
+interface Props {
+  title?: string;
+  description?: string;
+}
+
+const {
+  title = 'The Ali Unseen',
+  description = 'Human experience, artificial intelligence, and everything in between.'
+} = Astro.props;
+
+const pageTitle = title === 'The Ali Unseen' ? title : `${title} | The Ali Unseen`;
+const path = Astro.url.pathname;
+const nav = [
+  ['/', 'Home'],
+  ['/writing/', 'Writing'],
+  ['/projects/', 'Projects'],
+  ['/about/', 'About'],
+  ['/watch/', 'Watch'],
+  ['/support/', 'Support']
+];
+---
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="description" content={description} />
+    <meta name="theme-color" content="#05070b" />
+    <meta property="og:title" content={pageTitle} />
+    <meta property="og:description" content={description} />
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content={Astro.url} />
+    <meta name="twitter:card" content="summary_large_image" />
+    <link rel="canonical" href={Astro.url} />
+    <title>{pageTitle}</title>
+  </head>
+  <body>
+    <header class="site-header">
+      <div class="container nav-wrap">
+        <a class="brand" href="/" aria-label="The Ali Unseen home"><span>The Ali</span> <span>Unseen</span></a>
+        <nav class="nav" aria-label="Primary navigation">
+          {nav.map(([href, label]) => (
+            <a href={href} aria-current={path === href ? 'page' : undefined}>{label}</a>
+          ))}
+        </nav>
+      </div>
+    </header>
+
+    <main>
+      <slot />
+    </main>
+
+    <footer class="site-footer">
+      <div class="container footer-row">
+        <span>© {new Date().getFullYear()} The Ali Unseen</span>
+        <span>Human experience × artificial intelligence.</span>
+      </div>
+    </footer>
+  </body>
+</html>
